@@ -1,8 +1,6 @@
 spring:
   profiles:
     active: dev
-  sleuth:
-    enabled: true
   datasource:
     url: jdbc:h2:mem:testdb
     driverClassName: org.h2.Driver
@@ -18,9 +16,4 @@ spring:
       enabled: true
       path: /h2-console
 
-logging:
-  level:
-    org.springframework.web: DEBUG
-    org.springframework.cloud.sleuth: DEBUG
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} - %5level - [traceId=%X{traceId}] - %msg%n"
+
