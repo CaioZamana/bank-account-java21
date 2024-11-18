@@ -1,0 +1,1 @@
+https://start.spring.io/#!type=gradle-project&language=java&platformVersion=3.3.5&packaging=jar&jvmVersion=21&groupId=com.service.account.bank&artifactId=bank-account&name=bank-account&description=Accounts%20of%20bank%20system&packageName=com.service.account.bank&dependencies=web,data-jpa,native,lombok
