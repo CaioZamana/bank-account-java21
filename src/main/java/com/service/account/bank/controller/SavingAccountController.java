@@ -18,14 +18,14 @@ public class SavingAccountController {
     private final SavingAccountService savingAccountService;
 
     @PostMapping("/create")
-    public ResponseEntity<Account> createSavingAccount(@RequestParam String accountNameHolder,
-                                                 @RequestParam String accountNumber) {
-        Account account = savingAccountService.createSavingAccount(accountNameHolder, accountNumber);
+    public ResponseEntity<Account> createSavingAccount(@RequestParam String accountNameHolder
+    ) {
+        Account account = savingAccountService.createSavingAccount(accountNameHolder);
         return ResponseEntity.status(HttpStatus.CREATED).body(account);
     }
 
     @GetMapping("/get-all-saving-accounts")
-    public ResponseEntity<?> getAllSavingAccounts( Pageable pageable){
+    public ResponseEntity<?> getAllSavingAccounts(Pageable pageable) {
         Page<SavingAccount> pageableSavingAccounts = savingAccountService.getAllSavingAccounts(pageable);
 
 

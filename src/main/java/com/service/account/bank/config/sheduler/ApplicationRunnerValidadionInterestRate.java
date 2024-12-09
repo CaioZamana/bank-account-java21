@@ -19,7 +19,7 @@ public class ApplicationRunnerValidadionInterestRate implements CommandLineRunne
     @Override
     public void run(String... args) throws Exception {
         // Criando uma nova conta
-        SavingAccount newAccount = savingAccountService.createSavingAccount("John Doe", "123456");
+        SavingAccount newAccount = savingAccountService.createSavingAccount("John Doe");
 
         // Simulando a criação da conta 1 ano atrás
         newAccount.setCreationDate(LocalDate.now().minusYears(1));

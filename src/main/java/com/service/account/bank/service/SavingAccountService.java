@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.Random;
 
 @Service
 @AllArgsConstructor
@@ -23,27 +24,39 @@ public class SavingAccountService {
 
     private final SavingAccountRepository savingAccountRepository;
 
-    public SavingAccount createSavingAccount(String accountHolder, String accountNumber) {
+    public SavingAccount createSavingAccount(String accountHolder) {
         if (accountHolder == null || accountHolder.isBlank()) {
             throw new IllegalArgumentException("O titular da conta não pode ser nulo ou vazio.");
         }
-        if (accountNumber == null || accountNumber.isBlank()) {
-            throw new AccountNotFoundException("O número da conta não pode ser nulo ou vazio.");
-        }
-        if (savingAccountRepository.findByAccountNumber(accountNumber).isPresent()) {
-            throw new RuntimeException("O número de conta já existe.");
-        }
 
+        // Gerar número único para a conta
+        String uniqueAccountNumber = generateUniqueAccountNumber();
+
+        // Criar nova conta
         SavingAccount newAccount = new SavingAccount();
         newAccount.setAccountHolder(accountHolder);
-        newAccount.setAccountNumber(accountNumber);
+        newAccount.setAccountNumber(uniqueAccountNumber);
         newAccount.setBalance(BigDecimal.valueOf(1000));
         newAccount.setInterestRate(BigDecimal.valueOf(6));
         newAccount.setCreationDate(LocalDate.now());
 
+        // Salvar no repositório
+        savingAccountRepository.save(newAccount);
+
         log.info("Conta criada com sucesso! accountNumber={} ", newAccount.getAccountNumber());
-        return savingAccountRepository.save(newAccount);
+        return newAccount;
     }
+
+    // Método para gerar um número único
+    private String generateUniqueAccountNumber() {
+        String accountNumber;
+        do {
+            accountNumber = String.format("%08d", new Random().nextInt(100000000));
+        } while (savingAccountRepository.findByAccountNumber(accountNumber).isPresent());
+
+        return accountNumber;
+    }
+
 
     @Transactional
     public void applyMonthlyInterest(SavingAccount account) {
